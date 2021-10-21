@@ -5,6 +5,7 @@ import { db, auth } from "./firebase";
 import { makeStyles } from "@material-ui/core/styles";
 // import {Modal} from "@material-ui/core/Modal";
 import { Modal, Button, Input } from "@material-ui/core";
+import ImageUploads from './ImageUploads'
 
 function getModalStyle() {
   const top = 50;
@@ -89,10 +90,18 @@ function App() {
       .signInWithEmailAndPassword(email, password)
       .catch((error) => alert(error.message));
     setOpenSignIn(false);
-  };
+  }
+
 
   return (
-    <div className="app">
+    <div className="app">    
+    {user?.displayName ? (
+   < ImageUploads username={user.displayName} />
+    ) :(
+          <h3>Sorry you need to login to upload</h3>
+    )}
+
+ 
       <Modal open={open} onClose={() => setOpen(false)}>
         <div style={modalStyle} className={classes.paper}>
           <center>
@@ -177,7 +186,7 @@ function App() {
         </div>
       )}
 
-      {posts.map(({ id, post }) => (
+      {posts.map(({ id,post }) => (
         <Post
           key={id}
           username={post.username}
